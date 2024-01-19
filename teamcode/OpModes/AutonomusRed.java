@@ -6,23 +6,39 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.Utils.Encoders;
 import org.firstinspires.ftc.teamcode.Utils.IntakeOutake;
 import org.firstinspires.ftc.teamcode.Utils.Movement;
+import org.firstinspires.ftc.teamcode.Utils.Vision;
 import org.firstinspires.ftc.teamcode.hardware.RobotHardwareMap;
 
 @Autonomous(name = "Red")
 public class AutonomusRed extends LinearOpMode {
-    public void runOpMode(){
 
-        Encoders encoders = new Encoders();
-        Movement movement = new Movement(telemetry);
-        IntakeOutake intakeOutake = new IntakeOutake();
-        RobotHardwareMap robotHardwareMap = new RobotHardwareMap();
+    Encoders encoders = new Encoders();
+    Movement movement = new Movement(telemetry);
+    IntakeOutake intakeOutake = new IntakeOutake();
+    RobotHardwareMap robotHardwareMap = new RobotHardwareMap();
+
+    public void runOpMode(){
+        Vision vision = new Vision(telemetry);
 
         waitForStart();
-        robotHardwareMap.initializeHardware(hardwareMap);
+        while (opModeIsActive()) {
+            robotHardwareMap.initializeHardware(hardwareMap);
 
-        //maximum 90 grades. For left grades use negative grade and for backward ones use negative power
-        movement.MoveWithAngle(45,0,1);
-        sleep(1000);
-        movement.MoveWithAngle(0,0,0);
+            vision.telemetryTfod();
+
+            // Push telemetry to the Driver Station.
+            telemetry.update();
+
+            // Save CPU resources; can resume streaming when needed.
+            if (gamepad1.dpad_down) {
+                robotHardwareMap.visionPortal.stopStreaming();
+            } else if (gamepad1.dpad_up) {
+                robotHardwareMap.visionPortal.resumeStreaming();
+            }
+
+            // Share the CPU.
+            sleep(20);
+        }
+        robotHardwareMap.visionPortal.close();
     }
 }
