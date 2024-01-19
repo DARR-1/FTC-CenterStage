@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.Utils;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.teamcode.hardware.RobotHardwareMap;
+
 public class IntakeOutake {
     RobotHardwareMap robot = new RobotHardwareMap();
     public void IntakeAndOutake(boolean a, double leftStickY, boolean leftBumper, boolean rightBumper){

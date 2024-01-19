@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.Utils;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.teamcode.hardware.RobotHardwareMap;
+
 public class Encoders {
     RobotHardwareMap robot = new RobotHardwareMap();
     //assigns the needed data
@@ -20,25 +22,20 @@ public class Encoders {
         long TotalTicks = Math.round(TotalRevolutions / TICKSPERREVOLUTION);
         return (int)TotalTicks;
     }
-    public void AutoAlign(double x, double y, double z){
-        if (Math.abs(x) + Math.abs(y) + Math.abs(z) > 0){
-            encoderSavedPositionFR = robot.FR.getCurrentPosition();
-            encoderSavedPositionFR = robot.FL.getCurrentPosition();
-            encoderSavedPositionFR = robot.BR.getCurrentPosition();
-            encoderSavedPositionFR = robot.BL.getCurrentPosition();
 
-        }
-        robot.FR.setTargetPosition(encoderSavedPositionFR);
-        robot.FR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.FR.setPower(1);
-        robot.FL.setTargetPosition(encoderSavedPositionFR);
-        robot.FL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.FL.setPower(1);
-        robot.BR.setTargetPosition(encoderSavedPositionFR);
-        robot.BR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.BR.setPower(1);
-        robot.BL.setTargetPosition(encoderSavedPositionFR);
-        robot.BL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.BL.setPower(1);
+    public void initializeEncoders(){
+        //Set all the motor encoders to cero
+        robot.FR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.FL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.BR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.BL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.handle.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        //change the motors RunMode to use encoders
+        robot.FR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.FL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.BR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.BL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.handle.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 }
