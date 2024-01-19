@@ -11,7 +11,7 @@ public class coordsMovement {
             double catetoB = coords[i][1] - coords[i + 1][1];
             double catetoA = coords[i][0] - coords[i + 1][0];
             double distancia = Math.sqrt(Math.pow(catetoA, 2) + Math.pow(catetoB, 2));
-            double angle = Math.atan2(catetoA, catetoB);
+            double angle = Math.atan2(catetoB, catetoA);
 
             if (coords[i + 1][1] < coords[i][1]){
                 maxPower *= -1;
